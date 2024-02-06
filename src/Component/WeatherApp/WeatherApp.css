@@ -68,6 +68,7 @@
 .element{
     margin: auto;
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
     gap: 12px;
 }
@@ -80,4 +81,34 @@
     color: black;
     font-size:23px ;
     font-weight: 400;
+}
+@media screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+    }
+
+    .top-bar {
+        padding: 10px 0;
+    }
+
+    .top-bar input {
+        font-size: 14px;
+    }
+    .data-container {
+        margin-top: 20px;
+    }
+    .text{
+        color: black;
+        font-size:18px ;
+        font-weight: 400;
+    }
+    .data{
+        color: black;
+        font-size: 18px;
+        font-weight: 400;
+    }
+    .element{
+        display: flex;
+        flex-direction: column;
+    }
 }

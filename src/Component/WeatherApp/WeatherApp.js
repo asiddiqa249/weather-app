@@ -8,70 +8,85 @@ import rain_icon from "../Assets/rain.png";
 import search_icon from "../Assets/search.png";
 import snow_icon from "../Assets/snow.png";
 import wind_icon from "../Assets/wind.png";
+import max_temp from "../Assets/maxTemp.png";
+import min_temp from "../Assets/minTemp.webp";
 
 const WeatherApp = () => {
   let key = "d114c7997eeb3530f553fbe64a999a09";
-  
-    const [wicon, setWicon] = useState(cloud_icon);
-    const [loading, setLoading] = useState(false);
-  const search = async() => {
+
+  const [wicon, setWicon] = useState(cloud_icon);
+  const [loading, setLoading] = useState(false);
+  const [weatherDesc, setWeatherDesc] = useState("no desc");
+  const search = async () => {
     const element = document.getElementsByClassName("cityInput");
     if (element[0].value === "") {
-      return 0;
+      return alert("Enter city name");
     }
     setLoading(true);
-      try {
-          let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${key}`;
-          let response = await fetch(url);
-          let data = await response.json();
-          const humidity = document.getElementsByClassName("humidity-percent");
-          const wind = document.getElementsByClassName("wind-rate")
-          const temp = document.getElementsByClassName("weather-temp");
-          const location = document.getElementsByClassName("weather-location");
-    
-          humidity[0].innerHTML = `${data.main.humidity} %`;
-          wind[0].innerHTML = `${Math.floor(data.wind.speed)} km/h`;
-          temp[0].innerHTML = `${Math.floor(data.main.temp)}℃`;
-          location[0].innerHTML = data.name;
-    
-          if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-              setWicon(clear_icon);
-          } else if (
-              data.weather[0].icon === "02d" ||
-              data.weather[0].icon === "02n"
-          ) {
-              setWicon(cloud_icon);
-          } else if (
-              data.weather[0].icon === "03d" ||
-              data.weather[0].icon === "03n"
-          ) {
-              setWicon(drizzle_icon);
-          } else if (
-              data.weather[0].icon === "04d" ||
-              data.weather[0].icon === "04n"
-          ) {
-              setWicon(drizzle_icon);
-          } else if (
-              data.weather[0].icon === "09d" ||
-              data.weather[0].icon === "09n"
-          ) {
-              setWicon(rain_icon);
-          } else if (
-              data.weather[0].icon === "10d" ||
-              data.weather[0].icon === "10n"
-          ) {
-              setWicon(rain_icon);
-          } else if (
-              data.weather[0].icon === "13d" ||
-              data.weather[0].icon === "13n"
-          ) {
-              setWicon(snow_icon);
-          } else {
-              setWicon(clear_icon)
-          }
-      } finally {
-          setLoading(false);
+    try {
+      let url = `https://api.openweathermap.org/data/2.5/weather?q=${element[0].value}&units=Metric&appid=${key}`;
+      let response = await fetch(url);
+      if (!response.ok) {
+        return alert("Invalid city. Please enter a valid city name.");
       }
+      let data = await response.json();
+      const humidity = document.getElementsByClassName("humidity-percent");
+      const wind = document.getElementsByClassName("wind-rate");
+      const temp = document.getElementsByClassName("weather-temp");
+      const location = document.getElementsByClassName("weather-location");
+      const tempMax = document.getElementsByClassName("weather-temp_max");
+      const tempMin = document.getElementsByClassName("weather-temp_min");
+
+      humidity[0].innerHTML = `${data.main.humidity} %`;
+      wind[0].innerHTML = `${Math.floor(data.wind.speed)} km/h`;
+      temp[0].innerHTML = `${Math.floor(data.main.temp)}℃`;
+      location[0].innerHTML = data.name;
+      tempMax[0].innerHTML = `${Math.floor(data.main.temp_max)}℃`;
+      tempMin[0].innerHTML = `${Math.floor(data.main.temp_min)}℃`;
+
+      if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+        setWicon(clear_icon);
+      } else if (
+        data.weather[0].icon === "02d" ||
+        data.weather[0].icon === "02n"
+      ) {
+        setWicon(cloud_icon);
+      } else if (
+        data.weather[0].icon === "03d" ||
+        data.weather[0].icon === "03n"
+      ) {
+        setWicon(drizzle_icon);
+      } else if (
+        data.weather[0].icon === "04d" ||
+        data.weather[0].icon === "04n"
+      ) {
+        setWicon(drizzle_icon);
+      } else if (
+        data.weather[0].icon === "09d" ||
+        data.weather[0].icon === "09n"
+      ) {
+        setWicon(rain_icon);
+      } else if (
+        data.weather[0].icon === "10d" ||
+        data.weather[0].icon === "10n"
+      ) {
+        setWicon(rain_icon);
+      } else if (
+        data.weather[0].icon === "13d" ||
+        data.weather[0].icon === "13n"
+      ) {
+        setWicon(snow_icon);
+      } else {
+        setWicon(clear_icon);
+      }
+      if (data.weather[0].description) {
+        setWeatherDesc(data.weather[0].description);
+      } else {
+        setWeatherDesc("No description available");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -88,10 +103,31 @@ const WeatherApp = () => {
           </div>
         </div>
         <div className="weather-image">
-          <img src={wicon} alt=".." width={250} />
+          <img src={wicon} alt=".." width={150} />
         </div>
-        <div className="weather-temp">24℃</div>
-        <div className="weather-location">London</div>
+        <div className="weather-desc">
+          <span>Description:</span>
+          <span> {weatherDesc}</span>
+        </div>
+        <div className="weather-location">Hyderabad</div>
+        <div className="weather-temp">20℃</div>
+        <div className="data-container">
+          <div className="element">
+            <img src={max_temp} alt="" className="icon" width={80} />
+            <div className="max-temp">
+              <span>Max Temp :</span>
+              <span className="weather-temp_max"> 32.3℃</span>
+            </div>
+          </div>
+          <div className="element">
+            <img src={min_temp} alt="" className="icon" width={80} />
+            <div className="min-temp">
+              <span>Min Temp :</span>
+              <span className="weather-temp_min"> 19.3℃</span>
+            </div>
+          </div>
+        </div>
+
         <div className="data-container">
           <div className="element">
             <img src={humidity_icon} alt="" className="icon" width={80} />

@@ -16,7 +16,7 @@ const WeatherApp = () => {
 
   const [wicon, setWicon] = useState(cloud_icon);
   const [loading, setLoading] = useState(false);
-  const [weatherDesc, setWeatherDesc] = useState("No description");
+  const [weatherDesc, setWeatherDesc] = useState("Cloudy");
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
     if (element[0].value === "") {

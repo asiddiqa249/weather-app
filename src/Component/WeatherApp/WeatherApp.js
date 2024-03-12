@@ -16,7 +16,7 @@ const WeatherApp = () => {
 
   const [wicon, setWicon] = useState(cloud_icon);
   const [loading, setLoading] = useState(false);
-  const [weatherDesc, setWeatherDesc] = useState("no desc");
+  const [weatherDesc, setWeatherDesc] = useState("No description");
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
     if (element[0].value === "") {
@@ -115,15 +115,15 @@ const WeatherApp = () => {
           <div className="element">
             <img src={max_temp} alt="" className="icon" width={80} />
             <div className="max-temp">
-              <span>Max Temp :</span>
               <span className="weather-temp_max"> 32.3℃</span>
+              <div>Max Temp</div>
             </div>
           </div>
           <div className="element">
             <img src={min_temp} alt="" className="icon" width={80} />
             <div className="min-temp">
-              <span>Min Temp :</span>
               <span className="weather-temp_min"> 19.3℃</span>
+              <div>Min Temp</div>
             </div>
           </div>
         </div>
